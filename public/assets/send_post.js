@@ -1,14 +1,4 @@
-function postmsg() {
-  const light = document.querySelector("#light");
-  console.log(light);
-  // ec2올릴시 변경!!!!!!!!!!!!****************
-  var select = document.querySelector("#select_light").value;
-  var control = document.querySelector("#control_light_time").value;
-  var data = {
-    traffic_light: `${select}`,
-    how_many: `${control}`,
-  };
-
+function send_postmsg(data) {
   fetch("http://13.209.12.175:8080/api/response-e1", {
     method: "POST",
     body: JSON.stringify(data),
@@ -18,10 +8,40 @@ function postmsg() {
   }).then();
 }
 
+function postmsg_nomal() {
+  var data = {
+    edgeNo: "",
+    traffic_light: "",
+    how_many: "",
+    occasion: "nomalization",
+  };
+
+  send_postmsg(data);
+}
+
+function postmsg() {
+  const light = document.querySelector("#light");
+  console.log(light);
+  // ec2올릴시 변경!!!!!!!!!!!!****************
+  var select = document.querySelector("#select_light").value;
+  var control = document.querySelector("#control_light_time").value;
+  var data = {
+    edgeNo: "1",
+    traffic_light: `${select}`,
+    how_many: `${control}`,
+    occasion: "NA",
+  };
+
+  send_postmsg(data);
+}
+
 // const light = document.getElementById('light');
 
 var button = document.getElementById("Response_E1_btn");
-button.addEventListener("click", postmsg, false);
+button.addEventListener("click", postmsg);
+
+var button2 = document.getElementById("nomalization");
+button2.addEventListener("click", postmsg_nomal);
 
 // const button = document.getElementById('light');
 
